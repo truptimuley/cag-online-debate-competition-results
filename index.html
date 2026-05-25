@@ -44,26 +44,26 @@
 
     <script>
       function checkDatabase() {
-        const name = document.getElementById("name").value;
-        const phone = document.getElementById("phone").value;
+        const nameInput = document.getElementById("name").value;
+        const phoneInput = document.getElementById("phone").value;
         const messageDiv = document.getElementById("message");
 
         messageDiv.innerText = "Checking...";
 
-        // REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
         const scriptUrl =
           "https://script.google.com/macros/s/AKfycbwtL97vyfdDmP9CEiwIYDBeEdHvxEDh97OEGLlZRU-AOnwIS6Ui_0guA2Cy75624OqA8A/exec";
 
+        // --- DEBUGGING TRACE ---
         console.log("=== FRONTEND TRACE ===");
         console.log("1. Raw Name Input:", nameInput);
         console.log("2. Raw Phone Input:", phoneInput);
-        console.log("3. Full Request URL:", finalUrl);
+        // -----------------------
         
         fetch(scriptUrl, {
           method: "POST",
-          redirect: "follow", // <-- CRITICAL: Tells the browser to follow Google's redirect
+          redirect: "follow", 
           headers: {
-            "Content-Type": "text/plain;charset=utf-8", // <-- CRITICAL: Bypasses CORS security blocks
+            "Content-Type": "text/plain;charset=utf-8", 
           },
           body: JSON.stringify({ name: nameInput, phone: phoneInput }),
         })
@@ -82,5 +82,6 @@
           });
       }
     </script>
+Save that, refresh your page, and it will bypass that ReferenceError entirely! If it fails to find a match this time, check your Developer Console (F12) to see exactly what name and phone number it grabbed from the input boxes.
   </body>
 </html>
