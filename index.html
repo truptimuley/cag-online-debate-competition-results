@@ -56,22 +56,23 @@
 
         fetch(scriptUrl, {
           method: "POST",
-          body: JSON.stringify({ name: name, phone: phone }),
+          redirect: "follow", // <-- CRITICAL: Tells the browser to follow Google's redirect
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8", // <-- CRITICAL: Bypasses CORS security blocks
+          },
+          body: JSON.stringify({ name: nameInput, phone: phoneInput }),
         })
           .then((res) => res.json())
           .then((response) => {
             if (response.status === "success") {
-              messageDiv.innerHTML =
-                "<span style='color:green;'>Match found! Downloading...</span>";
-              // Automatically trigger the PDF download/open
+              messageDiv.innerHTML = "<span style='color:green;'>Match found! Downloading...</span>";
               window.open(response.pdf, "_blank");
             } else {
-              messageDiv.innerHTML =
-                "<span style='color:red;'>No match found. Please try again.</span>";
+              messageDiv.innerHTML = "<span style='color:red;'>No match found in the database.</span>";
             }
           })
           .catch((err) => {
-            messageDiv.innerText = "An error occurred. Try again.";
+            messageDiv.innerHTML = "<span style='color:red;'>Connection error. Check your browser console (F12).</span>";
             console.error(err);
           });
       }
