@@ -54,6 +54,11 @@
         const scriptUrl =
           "https://script.google.com/macros/s/AKfycbwtL97vyfdDmP9CEiwIYDBeEdHvxEDh97OEGLlZRU-AOnwIS6Ui_0guA2Cy75624OqA8A/exec";
 
+        console.log("=== FRONTEND TRACE ===");
+        console.log("1. Raw Name Input:", nameInput);
+        console.log("2. Raw Phone Input:", phoneInput);
+        console.log("3. Full Request URL:", finalUrl);
+        
         fetch(scriptUrl, {
           method: "POST",
           redirect: "follow", // <-- CRITICAL: Tells the browser to follow Google's redirect
