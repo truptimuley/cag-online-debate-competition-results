@@ -598,6 +598,9 @@
 
         const scriptUrl = "https://script.google.com/macros/s/AKfycbwtL97vyfdDmP9CEiwIYDBeEdHvxEDh97OEGLlZRU-AOnwIS6Ui_0guA2Cy75624OqA8A/exec";
 
+        // Open a blank window immediately (within the user gesture) to avoid popup blockers
+        const newWin = window.open("", "_blank");
+
         fetch(scriptUrl, {
           method:   "POST",
           redirect: "follow",
@@ -609,13 +612,15 @@
             resetBtn();
             if (response.status === "success") {
               showMsg("✅ Certificate found! Opening your download…", "success");
-              window.open(response.pdf, "_blank");
+              newWin.location.href = response.pdf;
             } else {
+              newWin.close();
               showMsg("❌ No record found. Please check your name and phone number.", "error");
             }
           })
           .catch(err => {
             resetBtn();
+            if (newWin) newWin.close();
             showMsg("⚠ Connection error. Please try again.", "error");
             console.error(err);
           });
