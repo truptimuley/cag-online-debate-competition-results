@@ -581,23 +581,21 @@
           showMsg("Please enter both your name and phone number.", "error");
           return;
         }
-
-        // Loading state
-        btn.disabled   = true;
+        
+        btn.disabled = true;
         spinner.style.display = "block";
-        btnText.textContent   = "Checking…";
+        btnText.textContent = "Checking…";
         showMsg("Looking up your record…", "loading");
 
         const scriptUrl = "https://script.google.com/macros/s/AKfycbwtL97vyfdDmP9CEiwIYDBeEdHvxEDh97OEGLlZRU-AOnwIS6Ui_0guA2Cy75624OqA8A/exec";
 
-        // Open a blank window immediately (within the user gesture) to avoid popup blockers
         const newWin = window.open("", "_blank");
 
         fetch(scriptUrl, {
-          method:   "POST",
-          redirect: "follow",
-          headers:  { "Content-Type": "text/plain;charset=utf-8" },
-          body:     JSON.stringify({ name: nameInput, phone: phoneInput }),
+          method:"POST",
+          redirect:"follow",
+          headers:{ "Content-Type": "text/plain;charset=utf-8" },
+          body:JSON.stringify({ phone: phoneInput }),
         })
           .then(res => res.json())
           .then(response => {
@@ -619,10 +617,10 @@
       }
 
       function resetBtn() {
-        const btn     = document.getElementById("submitBtn");
+        const btn = document.getElementById("submitBtn");
         const btnText = document.getElementById("btnText");
         const spinner = document.getElementById("spinner");
-        btn.disabled  = false;
+        btn.disabled = false;
         spinner.style.display = "none";
         btnText.textContent   = "Download Certificate";
       }
@@ -631,8 +629,7 @@
         const messageDiv = document.getElementById("message");
         messageDiv.innerHTML = `<span class="msg ${type}">${text}</span>`;
       }
-
-      // Allow Enter key to submit
+      
       document.addEventListener("keydown", e => {
         if (e.key === "Enter") checkDatabase();
       });
